@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, SvgIcon } from '@mui/material';
 import background from "../Media/background.svg"
+import discord from "../Media/discord.svg"
 import { Container } from '@mui/system';
 import { Link } from 'react-router-dom';
 
-export default function App() {
+export default function Seats() {
     return (
         <Container>
             <Stack sx={{ my: 2, alignItems: 'center' }}>
                 <Link to="/login">
-                    <Button variant="contained">Logg dæ inn</Button>
+                    <Button startIcon={<img src={discord} style={{width: 20 }} />} variant="outlined">Logg dæ inn med Discord</Button>
                 </Link>
                 <Box sx={{ flexGrow: 1 }}>
                     <Box sx={{

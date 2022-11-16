@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { Button, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-export default function App() {
+export default function Main() {
     return (
         <Stack sx={{ my: 4, alignItems: 'center' }} >
             <Typography variant="h5" component="h1" gutterBottom>
