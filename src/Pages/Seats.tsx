@@ -3,15 +3,13 @@ import { Box, Button, Stack, SvgIcon } from '@mui/material';
 import background from "../Media/background.svg"
 import discord from "../Media/discord.svg"
 import { Container } from '@mui/system';
-import { Link } from 'react-router-dom';
+import RedirectToDiscordLogin from '../Adapters/RedirectToDiscordLogin';
 
 export default function Seats() {
     return (
         <Container>
             <Stack sx={{ my: 2, alignItems: 'center' }}>
-                <Link to="/login">
-                    <Button startIcon={<img src={discord} style={{width: 20 }} />} variant="outlined">Logg dæ inn med Discord</Button>
-                </Link>
+                <Button startIcon={<img src={discord} style={{width: 20 }} onClick={RedirectToDiscordLogin}/>} variant="outlined">Logg dæ inn med Discord</Button>
                 <Box sx={{ flexGrow: 1 }}>
                     <Box sx={{
                         display: "flex",
