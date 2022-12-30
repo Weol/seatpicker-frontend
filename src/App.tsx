@@ -1,18 +1,25 @@
 import * as React from 'react';
 import { Routes, Route } from "react-router-dom";
 import NotFound from './Pages/NotFound';
-import Main from './Pages/Main';
 import Seats from './Pages/Seats';
-import Login from './Pages/Login';
 import RedirectLogin from './Pages/RedirectLogin';
+import MainAppBar from './MainAppBar';
+import UserContext from './UserContext';
+import { useState } from 'react';
+import User from './Models/User';
+import GetLoggedInUser from './Adapters/GetLoggedInUser';
 
 export default function App() {
+  let [user, setUser] = useState<User | null>(GetLoggedInUser())
+
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/seats" element={<Seats />} />
-      <Route path="/redirect-login" element={<RedirectLogin />} />
-      <Route path="/*" element={<NotFound />} />
-    </Routes>
+    <UserContext.Provider value={{user: user, setUser: setUser}}>
+      <MainAppBar />
+      <Routes>
+        <Route path="/" element={<Seats/>} />
+        <Route path="/redirect-login" element={<RedirectLogin />} />
+        <Route path="/*" element={<NotFound />} />
+      </Routes>
+    </UserContext.Provider>
   );
 }

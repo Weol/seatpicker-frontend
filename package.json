@@ -2,19 +2,22 @@
   "name": "seatpicker-frontend",
   "version": "5.0.0",
   "private": true,
+  "proxy": "http://127.0.0.1:7071/",
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
+    "@mui/icons-material": "^5.11.0",
     "@mui/material": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-scripts": "latest",
-    "typescript": "latest"
+    "react-scripts": "^4.0.3",
+    "typescript": "latest",
+    "universal-cookie": "^4.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

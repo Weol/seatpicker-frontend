@@ -1,8 +1,21 @@
 import User from "../Models/User";
 import Config from "../config"
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 type TokenContract = {
     Token: string
+}
+
+function ParseJwt(token: string) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
 }
 
 export default function LoginWithDiscordToken(token: string, onSuccess: (user: User) => void) {
@@ -11,7 +24,7 @@ export default function LoginWithDiscordToken(token: string, onSuccess: (user: U
 
     let contract: TokenContract = { Token: token }
 
-    fetch(Config.ApiBaseUrl + "/oauth2/token", {
+    fetch(Config.ApiBaseUrl + "/login", {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(contract),
@@ -19,12 +32,21 @@ export default function LoginWithDiscordToken(token: string, onSuccess: (user: U
     })
         .then(response => response.json())
         .then(result => {
-            let id = result["id"]
-            let nick = result["nick"]
-            let name = result["name"]
-            let avatar = result["avatar"]
+            console.log(result)
+            let token = result["Token"]
 
-            
+            let parsedJwt = ParseJwt(token)
+            let user = {
+                id: parsedJwt.spu_id,
+                nick: parsedJwt.spu_nick,
+                avatar: parsedJwt.spu_avatar,
+                roles: parsedJwt.spu_roles
+            }
+
+            cookies.set("user", user, {path: "/"})
+            cookies.set("token", token, {path: "/"})
+
+            onSuccess(user)
         })
         .catch(result => {
             console.log(result)
