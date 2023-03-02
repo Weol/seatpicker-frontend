@@ -1,18 +1,21 @@
-import Seats from "./Pages/Seats"
+import Seat from "./Models/Seat";
 
-interface Seat {
+
+interface SeatReference {
     Id: string | null;
     Title: string | null;
-    Width: string;
-    Height: string;
-    Top: string;
-    Left: string;
+    Width: number;
+    Height: number;
+    Top: number;
+    Left: number;
 }
 
 const createRow = (reference: SeatReference, y: number, n: number): Array<SeatReference> => {
     let row = []
     for (var i = 0; i < n; i++) {
         row.push({
+            Id: null,
+            Title: null,
             Top: reference.Top + reference.Height * y,
             Left: reference.Left + reference.Width * i,
             Width: reference.Width,
@@ -24,6 +27,8 @@ const createRow = (reference: SeatReference, y: number, n: number): Array<SeatRe
 
 export default function createSeats(top: number, left: number, width: number, height: number) : Array<Seat> {
     const reference = {
+        Id: null,
+        Title: null,
         Top: top,
         Left: left,
         Width: width,
@@ -84,14 +89,19 @@ export default function createSeats(top: number, left: number, width: number, he
 
     var seats: Array<Seat> = []
 
-    var title = 0 
+    var title = 0
     rows.forEach(row => {
         row.forEach(seat => {
-            title = title + 1
-            seat.Title = title
-            seats.push(seat)
+            seats.push({
+                Id: seat.Id ?? "NO ID",
+                Title: title + "",
+                Width: seat.Width + "%",
+                Height: seat.Height + "%",
+                Top: seat.Top+ "%",
+                Left: seat.Left + "%",
+            })
         })
     })
 
-    return seats 
+    return seats
 }
