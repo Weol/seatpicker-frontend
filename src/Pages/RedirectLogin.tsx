@@ -18,6 +18,7 @@ export default function RedirectLogin() {
         let code = searchParams.get("code")
         if (code) {
             LoginWithDiscordToken(code, user => {
+                console.log(user)
                 setUser(user)
                 userContext.setUser(user)
             })

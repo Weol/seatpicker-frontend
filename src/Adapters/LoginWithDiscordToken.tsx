@@ -24,7 +24,7 @@ export default function LoginWithDiscordToken(token: string, onSuccess: (user: U
 
     let contract: TokenContract = { Token: token }
 
-    fetch(Config.ApiBaseUrl + "/login", {
+    fetch(Config.ApiBaseUrl + "/token", {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(contract),
@@ -33,7 +33,7 @@ export default function LoginWithDiscordToken(token: string, onSuccess: (user: U
         .then(response => response.json())
         .then(result => {
             console.log(result)
-            let token = result["Token"]
+            let token = result["token"]
 
             let parsedJwt = ParseJwt(token)
             let user = {
