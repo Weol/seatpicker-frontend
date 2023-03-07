@@ -1,56 +1,58 @@
 import * as React from 'react';
-import { Box, Button, Stack, SvgIcon } from '@mui/material';
+import {Box, Button, List, ListItemButton, Stack, SvgIcon, Typography} from '@mui/material';
 import background from "../Media/background.svg"
 import { Container } from '@mui/system';
-import {useState} from "react";
-import GetAllReservations, {Resevation} from '../Adapters/GetAllReservations';
 import createSeats from "../StaticSeats";
 import green from "../Media/green.svg";
-import Typography from "@mui/material/Typography";
 import Seat from '../Models/Seat';
 import CreateReservation from "../Adapters/CreateReservation";
+import {useState} from "react";
 
-const seats = createSeats(34, 36.9, 8.72 + (8.72 * 2 / 5), 2.51);
+const staticSeats = createSeats();
 
 export default function Seats() {
-    const [reservations, setReservations] = useState<Array<Resevation>>([])
-
-    React.useEffect(() => {
-        fetchAllSeats()
-    }, [])
-
-    const fetchAllSeats = () => {
-        GetAllReservations(reservations => {
-            setReservations(reservations)
-        })
-    }
+    const [seats, setSeats] = useState<{[Id: string]: Seat}>(staticSeats)
+    const [editingLayout, setEditingLayout] = useState<boolean>()
 
     const reserveSeat = (seat: Seat) => {
-        console.log(seat)
         CreateReservation(seat.Id ,reservations => {
         })
     }
 
+    const r = (): number => {
+        const a = 100 
+        return (300 + (Math.random()*a/2 + a))
+    }
+
+    const q = (): number => {
+        const a = 10 
+        return (20 * Math.random())
+    }
+    
     const renderSeat = (seat: Seat) => {
         return (
-                <Box onClick={() => reserveSeat(seat)} sx={{
-                    position: "absolute",
-                    top: seat.Top,
-                    left: seat.Left,
-                    width: seat.Width,
-                    height: seat.Height,
-                    background: "url(" + green + ")",
-                    backgrondRepeat: "no-repeat",
-                    backgroundSize: "cover",
-                    cursor: "pointer",
-                    textAlign: "center",
-                    display: "flex"
-                }}>
-                    <Typography variant="subtitle1" gutterBottom component="p"
-                                sx={{lineHeight: 1, fontSize: "0.9rem", margin: "auto"}}>
-                        {seat.Title}
-                    </Typography>
-                </Box>
+            <Box onClick={() => reserveSeat(seat)} sx={{
+                position: "absolute",
+                minWidth: "0",
+                top: seat.Y + "%",
+                left: seat.X + "%",
+                width: seat.Width + "%",
+                height: seat.Height + "%",
+                border: "1px #ffffff61 solid",
+                backgroundColor: "#0f6a0f",
+                borderTopLeftRadius: r() + "px " + q() + "px", 
+                borderTopRightRadius: q() + "px " + r() + "px",
+                borderBottomRightRadius: r() + "px " + q() + "px",
+                borderBottomLeftRadius: q() + "px " + r() + "px",
+                cursor: "pointer",
+                textAlign: "center",
+                display: "flex"
+            }}>
+                <Typography variant="subtitle1" gutterBottom component="p"
+                            sx={{lineHeight: 1, fontSize: "0.9rem", margin: "auto"}}>
+                    {seat.Title}
+                </Typography>
+            </Box>
             )
     }
 
@@ -75,7 +77,7 @@ export default function Seats() {
                                 width: "100%"
                             }} />
 
-                            {seats && seats.map(seat => renderSeat(seat))}
+                            {seats && Object.values(seats).map(seat => renderSeat(seat))}
                         </Box>
                     </Box>
                 </Box>
@@ -83,4 +85,5 @@ export default function Seats() {
         </Container>
     );
 }
+
 

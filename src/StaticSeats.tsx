@@ -1,52 +1,55 @@
 import Seat from "./Models/Seat";
 
-
 interface SeatReference {
     Id: string | null;
     Title: string | null;
     Width: number;
     Height: number;
-    Top: number;
-    Left: number;
+    Y: number;
+    X: number;
 }
 
-const createRow = (reference: SeatReference, y: number, n: number): Array<SeatReference> => {
+const createRow = (width: number, height: number, x: number, y: number, n: number, xOffset: number): Array<SeatReference> => {
     let row = []
     for (var i = 0; i < n; i++) {
         row.push({
             Id: null,
             Title: null,
-            Top: reference.Top + reference.Height * y,
-            Left: reference.Left + reference.Width * i,
-            Width: reference.Width,
-            Height: reference.Height
+            Y: y,
+            X: x + (width + xOffset) * i,
+            Width: width,
+            Height: height
         })
     }
     return row
 }
 
-export default function createSeats(top: number, left: number, width: number, height: number) : Array<Seat> {
-    const reference = {
-        Id: null,
-        Title: null,
-        Top: top,
-        Left: left,
-        Width: width,
-        Height: height
-    }
+export default function createSeats() : {[Id: string]: Seat} {
+    const tableWidth = 11.5
+    const tableHeight = 2.81
 
-    const rows = [
-        createRow(reference, 0, 5),
-        createRow(reference, 1, 5),
-        createRow(reference, 4, 5),
-        createRow(reference, 5, 5),
-        createRow(reference, 8, 5),
-        createRow(reference, 9, 5),
-        createRow(reference, 12, 5),
-        createRow(reference, 13, 5),
-    ]
+    const offset = 0
 
-    rows[0][0].Id = "2052ccf8-3d0f-43e5-b595-6d770956d72c";
+    var y = 36
+    var yOffset = tableHeight* 2 + 5
+    const rows: Array<Array<SeatReference>> = []
+
+    rows.push(createRow(tableWidth, tableHeight, 38, y, 5, offset))
+    rows.push(createRow(tableWidth, tableHeight, 38, y + tableHeight, 5, offset))
+
+    y += yOffset
+    rows.push(createRow(tableWidth, tableHeight, 38, y, 5, offset))
+    rows.push(createRow(tableWidth, tableHeight, 38, y + tableHeight, 5, offset))
+
+    y += yOffset
+    rows.push(createRow(tableWidth, tableHeight, 38, y, 5, offset))
+    rows.push(createRow(tableWidth, tableHeight, 38, y + tableHeight, 5, offset))
+
+    y += yOffset
+    rows.push(createRow(tableWidth, tableHeight, 38, y, 5, offset))
+    rows.push(createRow(tableWidth, tableHeight, 38, y + tableHeight, 5, offset))
+
+    rows[0][0].Id = "1052ccf8-3d0f-43e5-b595-6d770956d72c";
     rows[0][1].Id = "a4c5d446-9fa3-44b8-ae97-ed699be50009";
     rows[0][2].Id = "a56ba935-f0a8-47e4-bb32-e8dc94f1f9a5";
     rows[0][3].Id = "cbeeade4-49ab-44fb-b40b-e90081f9ad24";
@@ -87,21 +90,25 @@ export default function createSeats(top: number, left: number, width: number, he
     rows[7][3].Id = "728b21e9-cb5f-41d6-9352-99b7b58d0fe5";
     rows[7][4].Id = "2052ccf8-3d0f-43e5-b595-6d770956d72c";
 
-    var seats: Array<Seat> = []
+    var seats: {[Id: string]: Seat} = {}
 
     var title = 0
     rows.forEach(row => {
         row.forEach(seat => {
-            seats.push({
+            title++
+            seats[seat.Id ?? "NO ID"] = {
                 Id: seat.Id ?? "NO ID",
+                User: null,
                 Title: title + "",
-                Width: seat.Width + "%",
-                Height: seat.Height + "%",
-                Top: seat.Top+ "%",
-                Left: seat.Left + "%",
-            })
+                Width: seat.Width,
+                Height: seat.Height,
+                Y: seat.Y,
+                X: seat.X,
+            }
         })
     })
+
+    console.log(JSON.stringify(Object.values(seats)))
 
     return seats
 }

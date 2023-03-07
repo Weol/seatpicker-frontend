@@ -16,7 +16,7 @@ export default function CreateReservation(seatId: string, onSuccess: (user: Rese
     headers.append("Content-Type", "text/json");
     headers.append("Authorization", "Bearer " + token);
 
-    fetch(Config.ApiBaseUrl + "/reservation/" + seatId, {
+    fetch(Config.ApiBaseUrl + "/seat/" + seatId + "/unreserve", {
         method: 'POST',
         headers: headers,
         redirect: 'follow'

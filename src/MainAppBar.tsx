@@ -93,6 +93,7 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{flexGrow: 0, display: {xs: 'flex', md: 'none'}}}>
             <IconButton
+              component="button"
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -149,6 +150,8 @@ function ResponsiveAppBar() {
           <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
             {pages.map((page) => (
               <Button
+                variant="text"
+                component="button"
                 key={page.Title}
                 onClick={() => navigateTo(page.Path)}
                 sx={{my: 2, color: 'white', display: 'block'}}

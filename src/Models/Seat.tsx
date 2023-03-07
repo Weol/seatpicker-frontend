@@ -1,8 +1,11 @@
-﻿export default interface Seat {
+﻿import User from "./User";
+
+export default interface Seat{
     Id: string;
+    User: User | null;
     Title: string;
-    Width: string;
-    Height: string;
-    Top: string;
-    Left: string;
+    Width: number;
+    Height: number;
+    X: number;
+    Y: number;
 }

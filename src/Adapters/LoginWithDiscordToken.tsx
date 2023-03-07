@@ -40,7 +40,7 @@ export default function LoginWithDiscordToken(token: string, onSuccess: (user: U
                 id: parsedJwt.spu_id,
                 nick: parsedJwt.spu_nick,
                 avatar: parsedJwt.spu_avatar,
-                roles: parsedJwt.spu_roles
+                roles: parsedJwt.role
             }
 
             cookies.set("user", user, {path: "/"})

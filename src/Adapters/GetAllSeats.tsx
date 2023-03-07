@@ -1,15 +1,10 @@
 import Cookies from 'universal-cookie';
 import Config from "../config";
-import User from "../Models/User";
+import Seat from "../Models/Seat";
 
 const cookies = new Cookies();
 
-export interface Resevation {
-    Id: string,
-    User: User
-}
-
-export default function GetAlReservations(onSuccess: (user: Array<Resevation>) => void) {
+export default function GetAllSeats(onSuccess: (user: Array<Seat>) => void) {
     var token = cookies.get("token")
 
     var headers = new Headers();
