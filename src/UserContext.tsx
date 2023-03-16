@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {useContext, useRef} from "react";
 import { useFormAction } from "react-router-dom";
 import User from "./Models/User";
 
@@ -7,4 +7,8 @@ interface UserContextObject {
     setUser: (user: User | null) => void
 }
 
-export default React.createContext<UserContextObject>({user: null,  setUser: (user: User | null) => {}});
+var defaultValue: UserContextObject = {user: null,  setUser: (user: User | null) => {}};
+
+export const UserContext = React.createContext<UserContextObject>(defaultValue);
+
+export const useUserContext = () => useContext(UserContext)

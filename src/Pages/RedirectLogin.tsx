@@ -7,7 +7,7 @@ import LoginWithDiscordToken from '../Adapters/LoginWithDiscordToken'
 import Config from "../config"
 import { CircularProgress, Stack } from '@mui/material';
 import User from '../Models/User';
-import UserContext from '../UserContext';
+import {UserContext} from '../UserContext';
 
 export default function RedirectLogin() {
     const [user, setUser] = useState<User | null>(null)
@@ -34,13 +34,13 @@ export default function RedirectLogin() {
             <img src={Config.DiscordAvatarBaseUrl + user?.id + "/" + user?.avatar} style={{ borderRadius: '50%' }} />
         </Stack>)
     }
-    
+
     const loading = () => {
         return (<Stack>
             <CircularProgress />
         </Stack>)
     }
-    
+
     return (
         <Stack sx={{ my: 4, alignItems: 'center' }} >
             {user ? welcome() : loading()}

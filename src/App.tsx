@@ -4,7 +4,7 @@ import NotFound from './Pages/NotFound';
 import Seats from './Pages/Seats';
 import RedirectLogin from './Pages/RedirectLogin';
 import MainAppBar from './MainAppBar';
-import UserContext from './UserContext';
+import {UserContext} from './UserContext';
 import { useState } from 'react';
 import User from './Models/User';
 import GetLoggedInUser from './Adapters/GetLoggedInUser';

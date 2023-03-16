@@ -12,19 +12,18 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {useContext, useState} from 'react';
-import UserContext from './UserContext';
 import LogOutLoggedInUser from './Adapters/LogOutLoggedInUser';
 import Config from './config'
 import User from './Models/User';
 import {useNavigate} from "react-router-dom";
 import discord from "./Media/discord.svg";
 import RedirectToDiscordLogin from "./Adapters/RedirectToDiscordLogin";
-import {Divider} from "@mui/material";
+import {useUserContext} from "./UserContext";
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const userContext = useContext(UserContext)
+  const { user, setUser } = useUserContext()
   const navigate = useNavigate()
 
   const pages = [
@@ -67,7 +66,7 @@ function ResponsiveAppBar() {
     handleCloseUserMenu()
     LogOutLoggedInUser()
 
-    userContext.setUser(null)
+    setUser(null)
   }
 
   return (
@@ -160,9 +159,7 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-
-          <UserContext.Consumer>
-            {({user, setUser}) => user && (
+            {user && (
               <Box sx={{ flexGrow: 0 }}>
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                   <Avatar alt={user.nick} src={getAvatarUrl(user)} />
@@ -190,10 +187,9 @@ function ResponsiveAppBar() {
               </Box>
             ) || (
               <Box sx={{ flexGrow: 0 }}>
-                <Button sx={{ color: 'text.primary' }} startIcon={<img src={discord} style={{ width: 20 }} />} variant="text" onClick={RedirectToDiscordLogin}>Logg inn</Button>
+                <Button sx={{ color: 'text.primary' }} startIcon={<img src={discord} style={{ width: 20 }}  alt="avatar"/>} variant="text" onClick={RedirectToDiscordLogin}>Logg inn</Button>
               </Box>
             )}
-          </UserContext.Consumer>
         </Toolbar>
       </Container>
     </AppBar>

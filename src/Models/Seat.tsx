@@ -1,11 +1,11 @@
 ﻿import User from "./User";
 
 export default interface Seat{
-    Id: string;
-    User: User | null;
-    Title: string;
-    Width: number;
-    Height: number;
-    X: number;
-    Y: number;
+    id: string;
+    user: User | null;
+    title: string;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
 }

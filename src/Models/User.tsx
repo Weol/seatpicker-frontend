@@ -1,5 +1,5 @@
 export default interface User {
-    id: number;
+    id: string;
     nick: string;
     avatar: string;
     roles: Array<string>

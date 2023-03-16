@@ -97,13 +97,13 @@ export default function createSeats() : {[Id: string]: Seat} {
         row.forEach(seat => {
             title++
             seats[seat.Id ?? "NO ID"] = {
-                Id: seat.Id ?? "NO ID",
-                User: null,
-                Title: title + "",
-                Width: seat.Width,
-                Height: seat.Height,
-                Y: seat.Y,
-                X: seat.X,
+                id: seat.Id ?? "NO ID",
+                user: null,
+                title: title + "",
+                width: seat.Width,
+                height: seat.Height,
+                y: seat.Y,
+                x: seat.X,
             }
         })
     })

@@ -1,33 +1,6 @@
-import Cookies from 'universal-cookie';
-import Config from "../config";
-import User from "../Models/User";
+import ApiRequestJson from "./ApiRequest";
+import Seat from "../Models/Seat";
 
-const cookies = new Cookies();
-
-export interface Resevation {
-    Id: string,
-    User: User
-}
-
-export default function CreateReservation(seatId: string, onSuccess: (user: Resevation) => void) {
-    var token = cookies.get("token")
-
-    var headers = new Headers();
-    headers.append("Content-Type", "text/json");
-    headers.append("Authorization", "Bearer " + token);
-
-    fetch(Config.ApiBaseUrl + "/seat/" + seatId + "/unreserve", {
-        method: 'POST',
-        headers: headers,
-        redirect: 'follow'
-    })
-        .then(response => response.json())
-        .then(result => {
-            console.log(result)
-
-            onSuccess(result)
-        })
-        .catch(result => {
-            console.log(result)
-        })
+export default function CreateReservation(seatId: string): Promise<Seat> {
+    return ApiRequestJson<Seat>("POST", "/seat/reserve/" + seatId);
 }
