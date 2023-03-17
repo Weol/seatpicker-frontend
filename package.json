@@ -12,6 +12,7 @@
     "@types/react-dom": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-notifications-component": "^4.0.1",
     "react-scripts": "^4.0.3",
     "typescript": "latest",
     "universal-cookie": "^4.0.4"

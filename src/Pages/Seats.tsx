@@ -1,15 +1,16 @@
 import * as React from 'react';
 import {Box, Button, List, ListItemButton, Stack, SvgIcon, Typography} from '@mui/material';
 import background from "../Media/background.svg"
-import { Container } from '@mui/system';
-import createSeats from "../StaticSeats";
-import green from "../Media/green.svg";
 import Seat from '../Models/Seat';
 import CreateReservation from "../Adapters/CreateReservation";
 import {useContext, useEffect, useState} from "react";
 import GetAllSeats from "../Adapters/GetAllSeats";
 import {useUserContext} from "../UserContext";
 import DeleteReservation from '../Adapters/DeleteReservation';
+import { Store } from 'react-notifications-component';
+import StaticSeats from '../StaticSeats';
+
+StaticSeats()
 
 export default function Seats() {
     const [seats, setSeats] = useState<Seat[]>([])
@@ -29,6 +30,20 @@ export default function Seats() {
         } else {
             await CreateReservation(seat.id)
         }
+
+        Store.addNotification({
+            title: "Wonderful!",
+            message: "teodosii@react-notifications-component",
+            type: "info",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 3000,
+                onScreen: true
+            }
+        });
 
         fetchAllSeats()
     }
@@ -97,5 +112,3 @@ export default function Seats() {
         </Stack>
     );
 }
-
-
