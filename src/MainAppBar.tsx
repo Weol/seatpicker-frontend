@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,9 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {useContext, useState} from 'react';
 import LogOutLoggedInUser from './Adapters/LogOutLoggedInUser';
 import Config from './config'
 import User from './Models/User';
@@ -23,7 +22,7 @@ import {useUserContext} from "./UserContext";
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const { user, setUser } = useUserContext()
+  const {user, setUser} = useUserContext()
   const navigate = useNavigate()
 
   const pages = [
@@ -70,7 +69,7 @@ function ResponsiveAppBar() {
   }
 
   return (
-    <AppBar position="static" sx={{ bgcolor: 'background.paper', color: 'text.primary' }}>
+    <AppBar position="static" sx={{bgcolor: 'background.paper', color: 'text.primary'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -80,63 +79,8 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-              display: {xs: 'none', md: 'flex'},
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            SALTENLAN
-          </Typography>
-          <Box sx={{flexGrow: 0, display: {xs: 'flex', md: 'none'}}}>
-            <IconButton
-              component="button"
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon/>
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: {xs: 'block', md: 'none'},
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page.Title} onClick={() => navigateTo(page.Path)}>
-                  <Typography textAlign="center">{page.Title}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: {xs: 'flex', md: 'none', marginLeft: '16px'},
               flexGrow: 1,
-              textAlign: 'center',
+              display: 'block',
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
@@ -146,50 +90,39 @@ function ResponsiveAppBar() {
           >
             SALTENLAN
           </Typography>
-          <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-            {pages.map((page) => (
-              <Button
-                variant="text"
-                component="button"
-                key={page.Title}
-                onClick={() => navigateTo(page.Path)}
-                sx={{my: 2, color: 'white', display: 'block'}}
+          {user && (
+            <Box sx={{flexGrow: 0}}>
+              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                <Avatar alt={user.nick} src={getAvatarUrl(user)}/>
+              </IconButton>
+              <Menu
+                sx={{mt: '45px'}}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
               >
-                {page.Title}
-              </Button>
-            ))}
-          </Box>
-            {user && (
-              <Box sx={{ flexGrow: 0 }}>
-                <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                  <Avatar alt={user.nick} src={getAvatarUrl(user)} />
-                </IconButton>
-                <Menu
-                  sx={{mt: '45px'}}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <MenuItem key='logout' onClick={handleLogout}>
-                    <Typography textAlign="center">Logg ut</Typography>
-                  </MenuItem>
-                </Menu>
-              </Box>
-            ) || (
-              <Box sx={{ flexGrow: 0 }}>
-                <Button sx={{ color: 'text.primary' }} startIcon={<img src={discord} style={{ width: 20 }}  alt="avatar"/>} variant="text" onClick={RedirectToDiscordLogin}>Logg inn</Button>
-              </Box>
-            )}
+                <MenuItem key='logout' onClick={handleLogout}>
+                  <Typography textAlign="center">Logg ut</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) || (
+            <Box sx={{flexGrow: 0}}>
+              <Button sx={{color: 'text.primary'}}
+                      startIcon={<img src={discord} style={{width: 20}} alt="avatar"/>} variant="text"
+                      onClick={RedirectToDiscordLogin}>Logg inn</Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
